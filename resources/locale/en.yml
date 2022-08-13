@@ -1,0 +1,35 @@
+clarkwinkelmann-discussion-lists:
+    admin:
+        permissions:
+            viewPublic: View public discussion lists
+            createPrivate: Create private discussion lists
+            createPublic: Create public discussion lists
+            moderate: Modify and delete any discussion list
+            viewPrivate: View all private discussion lists
+    forum:
+        edit:
+            title: Edit list
+            name: Name
+            isPublic: Visible to other users
+            ordering: Ordering
+            orderingOptions:
+                manual: Manual
+                createdAsc: Discussion creation (oldest to most recent)
+                createdDesc: Discussion creation (most recent to oldest)
+                addedAsc: Addition to the list (least to most recent)
+                addedDesc: Addition to the list (most recent to least)
+            save: Save
+            delete: Delete
+            deleteConfirmation: Do you really want to delete this list permanently?
+        discussion:
+            add: Add to list
+            new: New list
+        profile:
+            link: Lists
+    api:
+        manualLimit: Manually sorted lists cannot contain more than 50 discussions
+
+core:
+    forum:
+        index_sort:
+            discussionListDefault_button: Order in list

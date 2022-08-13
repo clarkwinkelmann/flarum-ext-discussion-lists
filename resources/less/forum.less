@@ -1,0 +1,20 @@
+.DiscussionListSortablePlaceholder {
+    border: 2px dashed #aaa;
+    height: 50px;
+}
+
+.DiscussionListSortableHandle {
+    position: absolute;
+    left: -22px;
+    top: 20px;
+    cursor: move;
+}
+
+// Flarum doesn't have a disabled style for checkbox
+.EditDiscussionListModal .Checkbox.disabled {
+    opacity: 0.5;
+
+    &, input {
+        cursor: not-allowed;
+    }
+}
