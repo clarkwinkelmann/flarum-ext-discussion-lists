@@ -2,6 +2,7 @@
 
 namespace ClarkWinkelmann\DiscussionLists;
 
+use Flarum\Api\Controller\ShowDiscussionController;
 use Flarum\Api\Serializer\DiscussionSerializer;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Api\Serializer\UserSerializer;
@@ -31,10 +32,14 @@ return [
         ->delete('/discussion-lists/{id}/discussions/{discussionId}', 'discussion-lists.discussion.remove', Controllers\DiscussionRemoveController::class),
 
     (new Extend\Model(Discussion::class))
+        ->relationship('discussionLists', function (Discussion $discussion) {
+            return $discussion->belongsToMany(DiscussionList::class, 'discussion_list', 'discussion_id', 'list_id');
+        })
         ->relationship('seriesDiscussionLists', function (Discussion $discussion) {
+            // Unfortunately because of the eager loading we have to put a dummy relation here
+            // It's overridden by the serializer attributes method
             return $discussion->belongsToMany(DiscussionList::class, 'discussion_list', 'discussion_id', 'list_id')
-                //->whereColumn('discussion_list.user_id', '=', 'discussions.user_id')
-                ->where('discussion_list.is_public', true);
+                ->whereRaw('1=0');
         }),
 
     (new Extend\ModelVisibility(DiscussionList::class))
@@ -44,6 +49,7 @@ return [
         ->modelPolicy(DiscussionList::class, Access\ListPolicy::class),
 
     (new Extend\ApiSerializer(DiscussionSerializer::class))
+        ->attributes(DiscussionAttributes::class)
         ->hasMany('seriesDiscussionLists', ListSerializer::class),
 
     (new Extend\ApiSerializer(UserSerializer::class))
@@ -51,6 +57,9 @@ return [
 
     (new Extend\ApiSerializer(ForumSerializer::class))
         ->attributes(ForumAttributes::class),
+
+    (new Extend\ApiController(ShowDiscussionController::class))
+        ->addInclude('seriesDiscussionLists.discussions'),
 
     (new Extend\SimpleFlarumSearch(ListSearcher::class))
         ->setFullTextGambit(Gambits\FullTextGambit::class)

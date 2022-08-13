@@ -36,7 +36,10 @@
                 "name": "fas fa-list-ol",
                 "backgroundColor": "#684ba6",
                 "color": "#fff"
-            }
+            },
+            "optional-dependencies": [
+                "v17development/flarum-blog"
+            ]
         }
     }
 }

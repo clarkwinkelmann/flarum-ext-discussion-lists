@@ -4,6 +4,7 @@ namespace ClarkWinkelmann\DiscussionLists;
 
 use Flarum\Api\Serializer\AbstractSerializer;
 use Flarum\Api\Serializer\BasicDiscussionSerializer;
+use Flarum\Api\Serializer\BasicUserSerializer;
 
 class ListSerializer extends AbstractSerializer
 {
@@ -25,8 +26,13 @@ class ListSerializer extends AbstractSerializer
         ];
     }
 
+    public function user($list)
+    {
+        return $this->hasOne($list, BasicUserSerializer::class);
+    }
+
     public function discussions($list)
     {
-        return $this->hasMany($list, BasicDiscussionSerializer::class);
+        return $this->hasMany($list, BasicDiscussionSerializer::class, 'sortedDiscussions');
     }
 }

@@ -182,7 +182,11 @@ export default function () {
                             url: app.forum.attribute('apiUrl') + '/discussion-lists/' + list.id() + '/discussions/' + discussion.id(),
                             method: 'POST',
                             body: {
-                                order: destination + 1, // 0-based to 1-based
+                                data: {
+                                    attributes: {
+                                        order: destination + 1, // 0-based to 1-based
+                                    },
+                                },
                             },
                         }).then(payload => {
                             // Might not be necessary but we might as well do it in case you navigate back to a page that shows a summary with the discussion relationship

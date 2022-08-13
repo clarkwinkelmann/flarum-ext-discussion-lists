@@ -20,6 +20,7 @@ export default function () {
         }
 
         items.add('lists', DropdownThatStaysOpen.component({
+            className: 'DiscussionListsDropdown',
             buttonClassName: 'Button',
             icon: 'fas fa-list-ol',
             label: app.translator.trans('clarkwinkelmann-discussion-lists.forum.discussion.add'),
@@ -28,4 +29,22 @@ export default function () {
             discussion: this.discussion,
         })), 75);
     });
+
+    if ('v17development/blog/pages/BlogItem' in flarum.core.compat) {
+        extend(flarum.core.compat['v17development/blog/pages/BlogItem'].prototype, 'contentItems', function (items) {
+            if (!listsSupported() || !this.article) {
+                return;
+            }
+
+            items.add('lists', m('.FlarumBlog-Article-Content-Lists-Button', DropdownThatStaysOpen.component({
+                className: 'DiscussionListsDropdown',
+                buttonClassName: 'Button',
+                icon: 'fas fa-list-ol',
+                label: app.translator.trans('clarkwinkelmann-discussion-lists.forum.discussion.add'),
+                lazyDraw: true,
+            }, m(ListDropdownContent, {
+                discussion: this.article,
+            }))), 78); // Just below the edit controls that admins can see
+        });
+    }
 }

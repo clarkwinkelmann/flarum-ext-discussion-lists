@@ -44,6 +44,12 @@ class DiscussionList extends AbstractModel
             ->withPivot('order');
     }
 
+    public function sortedDiscussions(): Relations\BelongsToMany
+    {
+        return $this->discussions()
+            ->orderByPivot('order', 'asc');
+    }
+
     public function updateMeta(): self
     {
         $this->discussion_count = $this->discussions()->count();

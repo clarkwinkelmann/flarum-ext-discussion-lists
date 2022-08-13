@@ -15,6 +15,7 @@ class ListShowController extends AbstractShowController
     public $serializer = ListSerializer::class;
 
     public $include = [
+        'user',
         'discussions',
     ];
 
