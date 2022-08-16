@@ -23,6 +23,18 @@ app.initializers.add('clarkwinkelmann-discussion-lists', () => {
         }, 'reply')
         .registerPermission({
             icon: 'fas fa-stream',
+            label: app.translator.trans('clarkwinkelmann-discussion-lists.admin.permissions.createSeriesFromOwn'),
+            permission: 'discussion-lists.createSeriesFromOwn',
+            allowGuest: true,
+        }, 'reply')
+        .registerPermission({
+            icon: 'fas fa-stream',
+            label: app.translator.trans('clarkwinkelmann-discussion-lists.admin.permissions.createSeriesFromAny'),
+            permission: 'discussion-lists.createSeriesFromAny',
+            allowGuest: true,
+        }, 'reply')
+        .registerPermission({
+            icon: 'fas fa-stream',
             label: app.translator.trans('clarkwinkelmann-discussion-lists.admin.permissions.moderate'),
             permission: 'discussion-lists.moderate',
         }, 'moderate')

@@ -18,7 +18,7 @@ class ListSerializer extends AbstractSerializer
     {
         return [
             'name' => $list->name,
-            'isPublic' => (boolean)$list->is_public,
+            'visibility' => $list->visibility,
             'ordering' => $list->ordering,
             'discussionCount' => $list->discussion_count,
             'createdAt' => $this->formatDate($list->created_at),

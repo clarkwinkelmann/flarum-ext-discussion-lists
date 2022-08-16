@@ -50,7 +50,7 @@ export default class ListDropdownContent extends Component<ListDropdownContentAt
                     this.refresh();
                 },
             })),
-            Button.component({
+            m('li', Button.component({
                 onclick: () => {
                     app.modal.show(EditListModal, {
                         onsave: () => {
@@ -59,7 +59,7 @@ export default class ListDropdownContent extends Component<ListDropdownContentAt
                     });
                 },
                 icon: 'fas fa-plus',
-            }, app.translator.trans('clarkwinkelmann-discussion-lists.forum.discussion.new')),
+            }, app.translator.trans('clarkwinkelmann-discussion-lists.forum.discussion.new'))),
         ];
     }
 }

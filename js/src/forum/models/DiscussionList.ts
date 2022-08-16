@@ -4,7 +4,7 @@ import User from 'flarum/common/models/User';
 
 export default class DiscussionList extends Model {
     name = Model.attribute<string>('name')
-    isPublic = Model.attribute<boolean>('isPublic')
+    visibility = Model.attribute<string>('visibility')
     ordering = Model.attribute<string>('ordering')
     discussionCount = Model.attribute<number>('discussionCount')
     canEdit = Model.attribute<boolean>('canEdit')

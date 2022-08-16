@@ -1,15 +1,16 @@
 import {extend} from 'flarum/common/extend';
 import app from 'flarum/forum/app';
 import DiscussionPage from 'flarum/forum/components/DiscussionPage';
-import ListDropdownContent from './components/ListDropdownContent';
-import DropdownThatStaysOpen from './components/DropdownThatStaysOpen';
+import ListDropdown from './components/ListDropdown';
 
 function listsSupported() {
     if (!app.session.user) {
         return false;
     }
 
-    return app.forum.attribute('canCreatePublicDiscussionLists') || app.forum.attribute('canCreatePrivateDiscussionLists');
+    return app.forum.attribute('canCreatePrivateDiscussionLists') ||
+        app.forum.attribute('canCreatePublicDiscussionLists') ||
+        app.forum.attribute('canCreateSeriesDiscussionLists');
 }
 
 export default function () {
@@ -19,15 +20,9 @@ export default function () {
             return;
         }
 
-        items.add('lists', DropdownThatStaysOpen.component({
-            className: 'DiscussionListsDropdown',
-            buttonClassName: 'Button',
-            icon: 'fas fa-list-ol',
-            label: app.translator.trans('clarkwinkelmann-discussion-lists.forum.discussion.add'),
-            lazyDraw: true,
-        }, m(ListDropdownContent, {
+        items.add('lists', ListDropdown.component({
             discussion: this.discussion,
-        })), 75);
+        }), 75);
     });
 
     if ('v17development/blog/pages/BlogItem' in flarum.core.compat) {
@@ -36,15 +31,9 @@ export default function () {
                 return;
             }
 
-            items.add('lists', m('.FlarumBlog-Article-Content-Lists-Button', DropdownThatStaysOpen.component({
-                className: 'DiscussionListsDropdown',
-                buttonClassName: 'Button',
-                icon: 'fas fa-list-ol',
-                label: app.translator.trans('clarkwinkelmann-discussion-lists.forum.discussion.add'),
-                lazyDraw: true,
-            }, m(ListDropdownContent, {
+            items.add('lists', m('.FlarumBlog-Article-Content-Lists-Button', ListDropdown.component({
                 discussion: this.article,
-            }))), 78); // Just below the edit controls that admins can see
+            })), 78); // Just below the edit controls that admins can see
         });
     }
 }

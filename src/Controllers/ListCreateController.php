@@ -31,12 +31,19 @@ class ListCreateController extends AbstractCreateController
 
         $list = new DiscussionList();
 
-        if (Arr::get($attributes, 'isPublic')) {
-            $actor->assertCan('createPublic', DiscussionList::class);
-            $list->is_public = true;
-        } else {
-            $actor->assertCan('createPrivate', DiscussionList::class);
-            $list->is_public = false;
+        switch (Arr::get($attributes, 'visibility')) {
+            case 'series':
+                $actor->assertCan('createSeries', DiscussionList::class);
+                $list->visibility = 'series';
+                break;
+            case 'public':
+                $actor->assertCan('createPublic', DiscussionList::class);
+                $list->visibility = 'public';
+                break;
+            default:
+                $actor->assertCan('createPrivate', DiscussionList::class);
+                $list->visibility = 'private';
+                break;
         }
 
         $list->name = Arr::get($attributes, 'name');

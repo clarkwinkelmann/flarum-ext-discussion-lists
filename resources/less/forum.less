@@ -1,3 +1,36 @@
+.DiscussionListsDropdown {
+    .DiscussionListsDropdownEntry {
+        display: flex;
+
+        button {
+            width: 48px;
+
+            &:first-child {
+                padding-left: 17px; // Align with regular button icons in dropdown
+                padding-right: 0; // Reduce together with <a> so text aligns with regular buttons
+            }
+
+            &:last-child {
+                // Reduce padding around edit button, this will make the dropdown less wide overall
+                padding-left: 10px;
+                padding-right: 0;
+            }
+        }
+
+        a {
+            flex-grow: 1;
+            padding-left: 2px;
+            padding-right: 2px;
+
+            // Replace default dropdown button style to more clearly indicate this is a link and not a button
+            &:hover {
+                background: none;
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
 .DiscussionListSortablePlaceholder {
     border: 2px dashed #aaa;
     height: 50px;
@@ -8,15 +41,6 @@
     left: -22px;
     top: 20px;
     cursor: move;
-}
-
-// Flarum doesn't have a disabled style for checkbox
-.EditDiscussionListModal .Checkbox.disabled {
-    opacity: 0.5;
-
-    &, input {
-        cursor: not-allowed;
-    }
 }
 
 .ListHero-Edit {
@@ -36,9 +60,15 @@
     border: 1px solid white;
     text-align: left;
     padding: 20px;
+    width: 400px;
+    max-width: ~'calc(100vw - 40px)';
 
     .DiscussionListSeries-Edit {
         color: #666;
+    }
+
+    h3 {
+        margin: 0 0 10px;
     }
 }
 

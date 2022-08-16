@@ -7,6 +7,7 @@ import Link from 'flarum/common/components/Link';
 import {ApiPayloadSingle} from 'flarum/common/Store';
 import EditListModal from './EditListModal';
 import DiscussionList from '../models/DiscussionList';
+import ListIcon from './ListIcon';
 
 export interface ListDropdownItemAttrs extends ComponentAttrs {
     discussion: Discussion
@@ -22,7 +23,7 @@ export default class ListDropdownItem extends Component<ListDropdownItemAttrs> {
 
         const active = (list.discussions() || []).indexOf(discussion) !== -1;
 
-        return m('li', [
+        return m('li.DiscussionListsDropdownEntry', [
             Button.component({
                 onclick: () => {
                     this.loading = true;
@@ -50,10 +51,9 @@ export default class ListDropdownItem extends Component<ListDropdownItemAttrs> {
                 }),
             }, [
                 list.name(),
-                list.isPublic() ? null : [
-                    ' ',
-                    m('span.discussion-list-private', icon('fas fa-lock')),
-                ],
+                ListIcon.component({
+                    list,
+                }),
             ]),
             Button.component({
                 onclick: () => {

@@ -14,7 +14,7 @@ interface EditListModalAttrs extends IInternalModalAttrs {
 
 export default class EditListModal extends Modal<EditListModalAttrs> {
     name: string = ''
-    isPublic: boolean = false
+    visibility: string = 'private'
     ordering: string = 'manual';
     deleting: boolean = false
 
@@ -23,10 +23,14 @@ export default class EditListModal extends Modal<EditListModalAttrs> {
 
         if (this.attrs.list) {
             this.name = this.attrs.list.name();
-            this.isPublic = this.attrs.list.isPublic();
+            this.visibility = this.attrs.list.visibility();
             this.ordering = this.attrs.list.ordering();
         } else if (!app.forum.attribute('canCreatePrivateDiscussionLists')) {
-            this.isPublic = true;
+            if (app.forum.attribute('canCreatePublicDiscussionLists')) {
+                this.visibility = 'public';
+            } else {
+                this.visibility = 'series';
+            }
         }
     }
 
@@ -39,6 +43,19 @@ export default class EditListModal extends Modal<EditListModalAttrs> {
     }
 
     content() {
+        const visibilityOptions: any = {};
+
+        if (app.forum.attribute('canCreatePrivateDiscussionLists')) {
+            visibilityOptions.private = app.translator.trans('clarkwinkelmann-discussion-lists.forum.edit.visibilityOptions.private');
+        }
+        if (app.forum.attribute('canCreatePublicDiscussionLists')) {
+            visibilityOptions.public = app.translator.trans('clarkwinkelmann-discussion-lists.forum.edit.visibilityOptions.public');
+        }
+        if (app.forum.attribute('canCreateSeriesDiscussionLists')) {
+            visibilityOptions.series = app.translator.trans('clarkwinkelmann-discussion-lists.forum.edit.visibilityOptions.series');
+        }
+
+
         return m('.Modal-body', [
             m('.Form-group', [
                 m('label', {
@@ -55,13 +72,19 @@ export default class EditListModal extends Modal<EditListModalAttrs> {
                 }),
             ]),
             m('.Form-group', [
-                Switch.component({
-                    state: this.isPublic,
-                    onchange: (checked: boolean) => {
-                        this.isPublic = checked;
+                m('label', app.translator.trans('clarkwinkelmann-discussion-lists.forum.edit.visibility')),
+                Select.component({
+                    value: this.visibility,
+                    onchange: (value: string) => {
+                        this.visibility = value;
                     },
-                    disabled: app.forum.attribute('canCreatePublicDiscussionLists') !== app.forum.attribute('canCreatePrivateDiscussionLists'),
-                }, app.translator.trans('clarkwinkelmann-discussion-lists.forum.edit.isPublic')),
+                    options: visibilityOptions,
+                    disabled: (
+                        (app.forum.attribute('canCreatePrivateDiscussionLists') ? 1 : 0) +
+                        (app.forum.attribute('canCreatePublicDiscussionLists') ? 1 : 0) +
+                        (app.forum.attribute('canCreateSeriesDiscussionLists') ? 1 : 0)
+                    ) <= 1,
+                }),
             ]),
             m('.Form-group', [
                 m('label', app.translator.trans('clarkwinkelmann-discussion-lists.forum.edit.ordering')),
@@ -120,7 +143,7 @@ export default class EditListModal extends Modal<EditListModalAttrs> {
 
         (this.attrs.list || app.store.createRecord('discussion-lists')).save({
             name: this.name,
-            isPublic: this.isPublic,
+            visibility: this.visibility,
             ordering: this.ordering,
         }, {
             errorHandler: this.onerror.bind(this),

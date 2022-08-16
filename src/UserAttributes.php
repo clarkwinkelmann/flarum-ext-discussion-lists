@@ -11,7 +11,7 @@ class UserAttributes
     {
         $profileTabVisible = false;
 
-        if ($user->can('createPublic', DiscussionList::class)) {
+        if ($user->can('createPublic', DiscussionList::class) || $user->can('createSeries', DiscussionList::class)) {
             $profileTabVisible = true;
         } else {
             $actor = $serializer->getActor();

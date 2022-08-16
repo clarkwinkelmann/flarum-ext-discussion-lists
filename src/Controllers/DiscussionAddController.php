@@ -12,6 +12,12 @@ class DiscussionAddController extends AbstractDiscussionEditController
 {
     protected function editDiscussion(DiscussionList $list, Discussion $discussion, array $attributes)
     {
+        if ($list->visibility === 'series' && $discussion->user_id !== $list->user_id && !$list->user->hasPermission('discussion-lists.createSeriesFromAny')) {
+            throw new ValidationException([
+                'discussion_count' => resolve(Translator::class)->trans('clarkwinkelmann-discussion-lists.api.seriesAnyAddNotAllowed'),
+            ]);
+        }
+
         $updateMeta = true;
 
         if ($list->ordering === 'manual') {

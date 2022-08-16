@@ -13,11 +13,13 @@ use Illuminate\Database\Eloquent\Relations;
  * @property int $id
  * @property int $user_id
  * @property string $name
- * @property boolean $is_public
+ * @property string $visibility
  * @property string $ordering
  * @property int $discussion_count
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ *
+ * @property User $user
  */
 class DiscussionList extends AbstractModel
 {

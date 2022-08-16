@@ -9,6 +9,7 @@ Public lists act as discussion series and will be shown on a discussion if the d
 Private lists act as a bookmark feature and can be accessed from a user profile.
 
 Lists can be ordered by date or manually.
+Manually ordered lists are limited to 50 entries maximum, to avoid any issue related to pagination.
 
 ## Installation
 

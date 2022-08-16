@@ -131,7 +131,8 @@ export default function () {
         const state = this.attrs.state as DiscussionListState;
 
         // If not on the lists page, change nothing
-        if (!state.getParams().list) {
+        // Same if a manual sort has been applied to the page
+        if (!state.getParams().list || state.getParams().sort) {
             return vdom;
         }
 
@@ -203,7 +204,7 @@ export default function () {
     });
 
     extend(DiscussionListItem.prototype, 'view', function (vdom) {
-        if (!this.attrs.params.list) {
+        if (!this.attrs.params.list || this.attrs.params.sort) {
             return;
         }
 

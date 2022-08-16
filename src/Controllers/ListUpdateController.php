@@ -6,6 +6,7 @@ use ClarkWinkelmann\DiscussionLists\DiscussionList;
 use ClarkWinkelmann\DiscussionLists\ListValidator;
 use Flarum\Foundation\ValidationException;
 use Flarum\Locale\Translator;
+use Flarum\User\Exception\PermissionDeniedException;
 use Flarum\User\User;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
@@ -29,15 +30,35 @@ class ListUpdateController extends AbstractListEditController
             ]);
         }
 
-        $isPublic = Arr::get($attributes, 'isPublic');
+        $visibility = Arr::get($attributes, 'visibility');
 
-        if (!is_null($isPublic)) {
-            if ($isPublic) {
-                $actor->assertCan('createPublic', DiscussionList::class);
-                $list->is_public = true;
-            } else {
-                $actor->assertCan('createPrivate', DiscussionList::class);
-                $list->is_public = false;
+        if (!is_null($visibility)) {
+            switch ($visibility) {
+                case 'series':
+                    $seriesFromOwn = $actor->hasPermission('discussion-lists.createSeriesFromOwn');
+                    $seriesFromAny = $actor->hasPermission('discussion-lists.createSeriesFromAny');
+
+                    if (!$seriesFromOwn && !$seriesFromAny) {
+                        throw new PermissionDeniedException();
+                    }
+
+                    // When converting to a series and not allowed to include other authors, check it doesn't contain any illegal discussion
+                    if ($seriesFromOwn && !$seriesFromOwn && $list->discussions()->where('user_id', '!=', $actor->id)->exists()) {
+                        throw new ValidationException([
+                            'visibility' => resolve(Translator::class)->trans('clarkwinkelmann-discussion-lists.api.seriesAnyConversionNotAllowed'),
+                        ]);
+                    }
+
+                    $list->visibility = 'series';
+                    break;
+                case 'public':
+                    $actor->assertCan('createPublic', DiscussionList::class);
+                    $list->visibility = 'public';
+                    break;
+                default:
+                    $actor->assertCan('createPrivate', DiscussionList::class);
+                    $list->visibility = 'private';
+                    break;
             }
         }
 

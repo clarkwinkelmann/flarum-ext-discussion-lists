@@ -14,7 +14,7 @@ class ViewScope
         }
 
         $query->where(function (Builder $builder) use ($actor) {
-            $builder->where('is_public', true);
+            $builder->where('visibility', '!=', 'private');
 
             if (!$actor->hasPermission('discussion-lists.viewPublic')) {
                 $builder->whereRaw('1=0');
@@ -22,7 +22,7 @@ class ViewScope
         });
 
         $query->orWhere(function (Builder $builder) use ($actor) {
-            $builder->where('is_public', false)
+            $builder->where('visibility', '=', 'private')
                 ->where('user_id', $actor->id);
         });
     }

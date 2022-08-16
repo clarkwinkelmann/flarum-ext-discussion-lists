@@ -4,13 +4,19 @@ clarkwinkelmann-discussion-lists:
             viewPublic: View public discussion lists
             createPrivate: Create private discussion lists
             createPublic: Create public discussion lists
+            createSeriesFromOwn: Create discussion series with own content
+            createSeriesFromAny: Create discussion series with content from any user
             moderate: Modify and delete any discussion list
             viewPrivate: View all private discussion lists
     forum:
         edit:
             title: Edit list
             name: Name
-            isPublic: Visible to other users
+            visibility: Visibility
+            visibilityOptions:
+                private: Private list
+                public: Public list
+                series: Public series
             ordering: Ordering
             orderingOptions:
                 manual: Manual
@@ -26,8 +32,13 @@ clarkwinkelmann-discussion-lists:
             new: New list
         profile:
             link: Lists
+        badge:
+            private: Private list
+            series: Public series
     api:
         manualLimit: Manually sorted lists cannot contain more than 50 discussions
+        seriesAnyAddNotAllowed: You can only add your own discussions to a series list
+        seriesAnyConversionNotAllowed: Cannot convert list to a series because it contains discussions that are not your own
 
 core:
     forum:

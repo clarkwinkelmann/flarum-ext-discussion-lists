@@ -36,10 +36,9 @@ return [
             return $discussion->belongsToMany(DiscussionList::class, 'discussion_list', 'discussion_id', 'list_id');
         })
         ->relationship('seriesDiscussionLists', function (Discussion $discussion) {
-            // Unfortunately because of the eager loading we have to put a dummy relation here
-            // It's overridden by the serializer attributes method
             return $discussion->belongsToMany(DiscussionList::class, 'discussion_list', 'discussion_id', 'list_id')
-                ->whereRaw('1=0');
+                ->where('visibility', 'series')
+                ->where('discussion_count', '>', 1);
         }),
 
     (new Extend\ModelVisibility(DiscussionList::class))
@@ -49,7 +48,6 @@ return [
         ->modelPolicy(DiscussionList::class, Access\ListPolicy::class),
 
     (new Extend\ApiSerializer(DiscussionSerializer::class))
-        ->attributes(DiscussionAttributes::class)
         ->hasMany('seriesDiscussionLists', ListSerializer::class),
 
     (new Extend\ApiSerializer(UserSerializer::class))

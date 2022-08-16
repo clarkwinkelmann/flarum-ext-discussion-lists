@@ -18,6 +18,11 @@ class ListPolicy extends AbstractPolicy
         return $actor->hasPermission('discussion-lists.createPublic');
     }
 
+    public function createSeries(User $actor)
+    {
+        return $actor->hasPermission('discussion-lists.createSeriesFromOwn') || $actor->hasPermission('discussion-lists.createSeriesFromAny');
+    }
+
     public function edit(User $actor, DiscussionList $list)
     {
         if ($actor->id === $list->user_id) {
@@ -28,7 +33,7 @@ class ListPolicy extends AbstractPolicy
             return $this->deny();
         }
 
-        if (!$list->is_public && !$actor->hasPermission('discussion-lists.viewPrivate')) {
+        if ($list->visibility === 'private' && !$actor->hasPermission('discussion-lists.viewPrivate')) {
             return $this->deny();
         }
 

@@ -2,8 +2,8 @@ import app from 'flarum/forum/app';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import Link from 'flarum/common/components/Link';
 import UserPage from 'flarum/forum/components/UserPage';
-import icon from 'flarum/common/helpers/icon';
 import DiscussionList from '../models/DiscussionList';
+import ListIcon from './ListIcon';
 
 export default class ListsUserPage extends UserPage {
     lists: DiscussionList[] = []
@@ -52,10 +52,9 @@ export default class ListsUserPage extends UserPage {
             }),
         }, [
             list.name(),
-            list.isPublic() ? null : [
-                ' ',
-                m('span.discussion-list-private', icon('fas fa-lock')),
-            ],
+            ListIcon.component({
+                list,
+            }),
             ' ',
             m('span.discussion-list-count', '(' + list.discussionCount() + ')'),
         ]))));
