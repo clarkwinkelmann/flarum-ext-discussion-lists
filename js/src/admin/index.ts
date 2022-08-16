@@ -3,6 +3,11 @@ import app from 'flarum/admin/app';
 app.initializers.add('clarkwinkelmann-discussion-lists', () => {
     app.extensionData
         .for('clarkwinkelmann-discussion-lists')
+        .registerSetting({
+            type: 'switch',
+            setting: 'discussion-lists.collapseSeries',
+            label: app.translator.trans('clarkwinkelmann-discussion-lists.admin.settings.collapseSeries'),
+        })
         .registerPermission({
             icon: 'fas fa-stream',
             label: app.translator.trans('clarkwinkelmann-discussion-lists.admin.permissions.viewPublic'),

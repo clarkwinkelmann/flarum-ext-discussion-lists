@@ -1,5 +1,7 @@
 clarkwinkelmann-discussion-lists:
     admin:
+        settings:
+            collapseSeries: Collapse series index by default
         permissions:
             viewPublic: View public discussion lists
             createPrivate: Create private discussion lists
@@ -35,6 +37,10 @@ clarkwinkelmann-discussion-lists:
         badge:
             private: Private list
             series: Public series
+        series:
+            kind: Series
+            expand: Expand
+            visit: Show everything
     api:
         manualLimit: Manually sorted lists cannot contain more than 50 discussions
         seriesAnyAddNotAllowed: You can only add your own discussions to a series list

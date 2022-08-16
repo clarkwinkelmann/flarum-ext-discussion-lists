@@ -63,31 +63,43 @@
     width: 400px;
     max-width: ~'calc(100vw - 40px)';
 
-    .DiscussionListSeries-Edit {
-        color: #666;
-    }
-
     h3 {
         margin: 0 0 10px;
+        font-size: 1.4em;
     }
+}
+
+.DiscussionListSeriesHead small {
+    font-weight: normal;
+    color: #aaa;
 }
 
 .DiscussionListSeries li.active {
     font-weight: bold;
 }
 
-.DiscussionListSeries-Edit {
+.DiscussionListSeriesExpandButton {
     float: right;
 }
 
+.DiscussionListSeriesVisit .Button {
+    display: block;
+}
+
 .DiscussionListSeries.BlogSideWidget {
-    .DiscussionListSeries-Edit {
-        margin: 5px 5px 0 0;
+    min-height: 60px; // Because there's no margin-bottom in the Blog when collapsed
+
+    .DiscussionListSeriesExpandButton {
+        margin: 10px 10px 0 0;
     }
 
     ol {
         padding-bottom: 10px;
         line-height: 2em;
+    }
+
+    .DiscussionListSeriesVisit {
+        padding: 0 20px 20px;
     }
 }
 

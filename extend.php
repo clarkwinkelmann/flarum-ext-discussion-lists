@@ -31,6 +31,9 @@ return [
         ->post('/discussion-lists/{id}/discussions/{discussionId}', 'discussion-lists.discussion.add', Controllers\DiscussionAddController::class)
         ->delete('/discussion-lists/{id}/discussions/{discussionId}', 'discussion-lists.discussion.remove', Controllers\DiscussionRemoveController::class),
 
+    (new Extend\Settings())
+        ->serializeToForum('collapseDiscussionListsSeries', 'discussion-lists.collapseSeries', 'boolval'),
+
     (new Extend\Model(Discussion::class))
         ->relationship('discussionLists', function (Discussion $discussion) {
             return $discussion->belongsToMany(DiscussionList::class, 'discussion_list', 'discussion_id', 'list_id');
