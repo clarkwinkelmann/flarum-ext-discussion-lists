@@ -5,6 +5,7 @@ import DiscussionHero from 'flarum/forum/components/DiscussionHero';
 import ItemList from 'flarum/common/utils/ItemList';
 import DiscussionList from './models/DiscussionList';
 import Series from './components/Series';
+import SeriesNav from './components/SeriesNav';
 
 export default function () {
     Discussion.prototype.seriesDiscussionLists = Model.hasMany('seriesDiscussionLists');
@@ -36,6 +37,21 @@ export default function () {
                     currentDiscussion: article,
                 }), 40);
             });
+        });
+    }
+
+    if ('v17development/blog/pages/BlogItem' in flarum.core.compat) {
+        extend(flarum.core.compat['v17development/blog/pages/BlogItem'].prototype, 'postItems', function (items: ItemList<any>) {
+            const lists = this.article?.seriesDiscussionLists() || [];
+
+            if (lists.length !== 1 || lists[0].discussionCount() < 2) {
+                return;
+            }
+
+            items.add('series-navigation', SeriesNav.component({
+                currentDiscussion: this.article,
+                list: lists[0],
+            }), -10);
         });
     }
 }

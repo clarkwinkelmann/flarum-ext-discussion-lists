@@ -107,3 +107,32 @@
     padding: 0 16px;
     text-align: right;
 }
+
+.SeriesNav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+
+    .Button {
+        white-space: normal;
+    }
+}
+
+.SeriesNav--only-next {
+    justify-content: end;
+}
+
+.SeriesNav--next {
+    display: flex;
+    align-items: baseline;
+
+    .Button-icon {
+        margin-right: 0;
+        margin-left: 7px;
+        order: 2;
+    }
+
+    .Button-label {
+        order: 1;
+    }
+}
