@@ -3,7 +3,8 @@
     "description": "Create public or private lists of discussions",
     "keywords": [
         "flarum",
-        "list"
+        "list",
+        "series"
     ],
     "type": "flarum-extension",
     "license": "MIT",
@@ -21,7 +22,8 @@
         }
     ],
     "support": {
-        "source": "https://github.com/clarkwinkelmann/flarum-ext-discussion-lists"
+        "source": "https://github.com/clarkwinkelmann/flarum-ext-discussion-lists",
+        "forum": "https://discuss.flarum.org/d/31560"
     },
     "autoload": {
         "psr-4": {

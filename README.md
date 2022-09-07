@@ -4,7 +4,7 @@
 
 This extension allows creating public and private lists of discussions.
 
-Public lists act as discussion series and will be shown on a discussion if the discussion and list authors are the same.
+Public lists can further be configured as series which will be shown as a navigation menu on discussions and blog posts.
 
 Private lists act as a bookmark feature and can be accessed from a user profile.
 
@@ -30,7 +30,10 @@ You can [contact me](https://clarkwinkelmann.com/flarum) to sponsor additional f
 
 Support is offered on a "best effort" basis through the Flarum community thread.
 
+**Sponsors**: puppydreamwork
+
 ## Links
 
 - [GitHub](https://github.com/clarkwinkelmann/flarum-ext-discussion-lists)
 - [Packagist](https://packagist.org/packages/clarkwinkelmann/flarum-ext-discussion-lists)
+- [Discuss](https://discuss.flarum.org/d/31560)
