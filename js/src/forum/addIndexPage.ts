@@ -205,7 +205,8 @@ export default function () {
         });
     });
 
-    extend(DiscussionListItem.prototype, 'view', function (vdom) {
+    // contentItems is available since Flarum 1.8.6
+    extend(DiscussionListItem.prototype, 'contentItems', function (items) {
         if (!this.attrs.params.list || this.attrs.params.sort) {
             return;
         }
@@ -216,16 +217,8 @@ export default function () {
             return;
         }
 
-        if (!Array.isArray(vdom.children)) {
-            return;
-        }
-
-        vdom.children.forEach((child: any) => {
-            if (child && child.attrs && (typeof child.attrs.className === 'string') && child.attrs.className.indexOf('DiscussionListItem-content') !== -1) {
-                child.children.unshift(m(SortableHandle, {
-                    className: 'DiscussionListSortableHandle',
-                }));
-            }
-        });
+        items.add('discussion-lists-sort', m(SortableHandle, {
+            className: 'DiscussionListSortableHandle',
+        }), 200);
     });
 }
