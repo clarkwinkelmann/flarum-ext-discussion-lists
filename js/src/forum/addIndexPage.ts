@@ -27,9 +27,11 @@ export default function () {
             return null;
         }
 
-        const list = app.store.getById('discussion-lists', id);
+        const list = app.store.getById<ListModel>('discussion-lists', id);
 
-        if (list) {
+        // Check that the user() relationship is loaded, otherwise request full load
+        // Since the user is not nullable this should work reliably
+        if (list && list.user()) {
             this.currentActiveList = list;
             return this.currentActiveList;
         }
@@ -41,7 +43,7 @@ export default function () {
         this.currentListLoading = true;
 
         app.store
-            .find('discussion-lists', id)
+            .find<ListModel>('discussion-lists', id)
             .then(list => {
                 this.currentActiveList = list;
 
@@ -90,7 +92,7 @@ export default function () {
 
     extend(DiscussionListState.prototype, 'requestParams', function (this: DiscussionListState, params) {
         if (this.params.list) {
-            const filter = params.filter ?? {};
+            const filter: any = params.filter ?? {};
             filter.list = this.params.list;
             const q = filter.q;
             if (q) {
@@ -211,11 +213,15 @@ export default function () {
         const list = app.store.getById<ListModel>('discussion-lists', this.attrs.params.list);
 
         if (!list || list.ordering() !== 'manual' || !list.canEdit()) {
-            return vdom;
+            return;
         }
 
-        vdom.children.forEach(child => {
-            if (child && child.attrs && child.attrs.className.indexOf('DiscussionListItem-content') !== -1) {
+        if (!Array.isArray(vdom.children)) {
+            return;
+        }
+
+        vdom.children.forEach((child: any) => {
+            if (child && child.attrs && (typeof child.attrs.className === 'string') && child.attrs.className.indexOf('DiscussionListItem-content') !== -1) {
                 child.children.unshift(m(SortableHandle, {
                     className: 'DiscussionListSortableHandle',
                 }));

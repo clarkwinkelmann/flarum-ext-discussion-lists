@@ -1,10 +1,10 @@
-import Model from 'flarum/common/Model';
+import DiscussionList from './src/forum/models/DiscussionList';
 
 declare module 'flarum/forum/components/IndexPage' {
     export default interface IndexPage {
-        currentActiveList?: Model
+        currentActiveList?: DiscussionList
         currentListLoading?: boolean
 
-        currentList(): Model | null
+        currentList(): DiscussionList | null
     }
 }
